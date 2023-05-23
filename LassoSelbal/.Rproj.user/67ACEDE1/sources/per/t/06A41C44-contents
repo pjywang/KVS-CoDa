@@ -1,0 +1,48 @@
+library(knitr) # rbookdown, kable
+library(glmnet) # glmnet
+library(selbal) # selbal
+library(ggplot2) # draw selbal
+library(gridExtra) # grid.arrange
+library(UpSetR) # upset
+library(ggforce) # selbal-like plot
+library(grid) # grid.draw
+
+source(file = './CoDA-Penalized-Regression/R/functions_coda_penalized_regression.R')
+source(file = './CoDA-Penalized-Regression/R/functions.R')
+
+# READ .pickle file in R
+library(reticulate)
+pd <- import("pandas")
+pickle_data <- pd$read_pickle("sym_sum1.pickle")
+
+pickle_data$Y[pickle_data$Y < 0] = 0
+pickle_data$Y
+
+# Search lambdas
+lamseq = c(seq(0.01, 0.2, 0.01), 0.001)
+lambdaRange_codalasso(X = pickle_data$X, y = pickle_data$Y,
+                      lambdaSeq = lamseq)
+
+# Model learning
+model <- coda_logistic_lasso(X = pickle_data$X, y = pickle_data$Y,
+                             lambda=0.07)
+results <- coda_lasso_wrapper(result = model, X = pickle_data$X)
+sum(as.integer(sort(results$varSelect)) %in% pickle_data$True)
+
+
+## Elastic net 시도
+lamseq = c(seq(0.01, 0.3, 0.01), 0.001)
+lambdaRange_elasticnet(X = pickle_data$X, y = pickle_data$Y,
+                       lambdaSeq = lamseq)
+model <- coda_logistic_elasticNet(X = pickle_data$X, y = pickle_data$Y,
+                             lambda=0.17)
+results <- coda_lasso_wrapper(result = model, X = pickle_data$X)
+sum(as.integer(sort(results$varSelect)) %in% pickle_data$True)
+
+
+## Selbal도 시도
+library(selbal)
+model_selbal <- selbal(pickle_data$X, pickle_data$Y, maxV = 10, draw = F)
+results <- selbal_wrapper(model_selbal, pickle_data$X)
+sum(as.integer(sort(results$varSelect)) %in% pickle_data$True)
+results$varSelect
