@@ -1,4 +1,4 @@
-# Variable Selection for Compositional Data via Amalgamation
+## Kernel Variable Selection for Compositional Data via Amalgamation
 Experiment codes for the paper "Kernel Sufficient Dimension Reduction and Variable Selection for Compositional Data via Amalgamation" by Junyoung Park, Jeongyoun Ahn, and Cheolwoo Park (ICML 2023).
 
 ## Description
