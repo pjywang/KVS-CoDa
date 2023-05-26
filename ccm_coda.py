@@ -292,19 +292,19 @@ if __name__ == "__main__":
     """
     a1, a2 = np.ones(10), np.ones(10)
     
-    # Signal at indices 2, 3 (not very strong)
-    a2[2:4] += 2
+    # Signal at indices 6, 7
+    a2[6:8] += 2
 
     # Generate compositional data with differential abundance
-    np.random.seed(777)
-    X1, Y1 = np.random.dirichlet(a1, 50), np.zeros(50)
-    X2, Y2 = np.random.dirichlet(a2, 50), np.ones(50)
+    np.random.seed(77)
+    X1, Y1 = np.random.dirichlet(a1, 25), np.zeros(25)
+    X2, Y2 = np.random.dirichlet(a2, 25), np.ones(25)
     X = np.r_[X1, X2]
     Y = np.r_[Y1, Y2]
 
     # Perform variable selection
-    # learning rate is chosen to show reduction in loss clearly.
+    # learning rate is chosen to exhibit convergence of loss clearly.
     rank, w = ccm(X, Y, num_features=2, type_Y="binary", epsilon=0.001,
                 learning_rate=3e-5, iterations=2000)
-    print("Selected variables:", np.sort(np.argsort(rank)[:2]))
+    print("Selected variables:", np.sort(np.argsort(rank)[:2])) # selects true variables well
     print("Weights:", w)
