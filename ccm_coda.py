@@ -289,6 +289,7 @@ def ccm(X, Y, num_features, type_Y, epsilon, learning_rate=0.001,
 if __name__ == "__main__":
     """
     Example usage: selection of differentially abundant variables
+    See ./LassoSelbal/toy.R for results of log-ratio methods
     """
     a1, a2 = np.ones(10), np.ones(10)
     
