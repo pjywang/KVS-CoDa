@@ -3,7 +3,7 @@ Source code for kernel variable selection of compositional data via amalgamation
 Example usage is provided at the bottom of this file.
 
 Note: We borrowed some codes from https://github.com/Jianbo-Lab/CCM
-      The name ccm comes from "conditional covariance minimization."
+      The name of ccm comes from "conditional covariance minimization."
 """
 
 import numpy as np
